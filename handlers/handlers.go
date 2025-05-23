@@ -34,10 +34,31 @@ func generateSimpleID() string {
 }
 
 func (h *Handler) UploadFile(c *gin.Context) {
-	file, header, err := c.Request.FormFile("file")
+	// Try to get the file from the main field first
+	file, header, err := c.Request.FormFile("")
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "No file provided"})
-		return
+		// If that fails, try to get any file from the form
+		form, err := c.MultipartForm()
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "No file provided"})
+			return
+		}
+		if len(form.File) == 0 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "No file provided"})
+			return
+		}
+		// Get the first file from the form
+		for _, files := range form.File {
+			if len(files) > 0 {
+				file, err = files[0].Open()
+				if err != nil {
+					c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to open file"})
+					return
+				}
+				header = files[0]
+				break
+			}
+		}
 	}
 	defer file.Close()
 

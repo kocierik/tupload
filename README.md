@@ -14,17 +14,29 @@ A simple service that allows you to upload files and get temporary download link
 
 ### Using Docker Compose
 
-1. Build and start the service:
+1. Configure your domain in `docker-compose.yml`:
+```yaml
+services:
+  tupload:
+    # ... other configuration ...
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tupload.rule=Host(`your-domain.com`)"
+      - "traefik.http.routers.tupload.entrypoints=websecure"
+      - "traefik.http.routers.tupload.tls=true"
+```
+
+2. Build and start the service:
 ```bash
 docker-compose up -d
 ```
 
-2. Upload a file:
+3. Upload a file:
 ```bash
 curl your-domain.com -F your_file.txt
 ```
 
-3. Download a file:
+4. Download a file:
 ```bash
 wget https://your-domain.com/download/<file-id>
 ```
