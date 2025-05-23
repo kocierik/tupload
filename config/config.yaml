@@ -11,4 +11,4 @@ server:
 storage:
   path: "./uploads"
 
-domain: "your-domain.com" 
+domain: "your-domain.com"
