@@ -1,0 +1,28 @@
+services:
+  tupload:
+    build: .
+    ports:
+      - "6060:6060"
+    volumes:
+      - ./uploads:/app/uploads
+    environment:
+      - TZ=UTC
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tupload.rule=Host(`${DOMAIN:-your-domain.com}`)"
+      - "traefik.http.routers.tupload.entrypoints=websecure"
+      - "traefik.http.routers.tupload.tls=true"
+      - "traefik.http.routers.tupload.tls.certresolver=myresolver"
+      # Redirect from HTTP to HTTPS
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.tupload-http.rule=Host(`${DOMAIN:-your-domain.com}`)"
+      - "traefik.http.routers.tupload-http.entrypoints=web"
+      - "traefik.http.routers.tupload-http.middlewares=redirect-to-https"
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
+
