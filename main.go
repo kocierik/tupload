@@ -11,6 +11,9 @@ import (
 )
 
 func main() {
+	// Set Gin to release mode
+	gin.SetMode(gin.ReleaseMode)
+
 	// Load configuration
 	cfg, err := config.LoadConfig()
 	if err != nil {
