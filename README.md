@@ -2,12 +2,6 @@
 
 A simple service that allows you to upload files and get temporary download links valid for 24 hours.
 
-<div align="center">
-  
-![20250525_15h30m46s_grim](https://github.com/user-attachments/assets/2c7c917a-8446-4797-8cd9-5d81d365df7a)
-
-</div>
-
 ## Features
 
 - Simple file upload via curl
@@ -83,6 +77,13 @@ wget https://your-domain.com/download/2I9AV
 ```bash
 wget https://your-domain.com/download/<file-id>
 ```
+
+
+<div align="center">
+  
+![20250525_15h30m46s_grim](https://github.com/user-attachments/assets/2c7c917a-8446-4797-8cd9-5d81d365df7a)
+
+</div>
 
 ### Manual Build
 
