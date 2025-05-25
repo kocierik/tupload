@@ -33,7 +33,7 @@ docker-compose up -d
 
 3. Upload a file:
 ```bash
-curl your-domain.com -F your_file.txt
+curl https://your-domain.com -T your_file.txt
 ```
 
 4. Download a file:
@@ -51,25 +51,6 @@ go build
 2. Run the application:
 ```bash
 ./tupload
-```
-
-## Example
-
-Upload a file:
-```bash
-$ curl your-domain.com -F test.txt
-=========================
-
-Uploaded 1 file, 121 bytes
-
-wget https://your-domain.com/download/Ab3Cd
-
-=========================
-```
-
-Download the file:
-```bash
-$ wget https://your-domain.com/download/Ab3Cd
 ```
 
 ## Configuration
