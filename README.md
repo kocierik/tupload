@@ -12,6 +12,32 @@ A simple service that allows you to upload files and get temporary download link
 
 ## Quick Start
 
+
+## Configuration
+
+Edit `config/config.yaml` to customize:
+- Server port and host
+- Storage path
+- Domain name
+
+```
+server:
+  port: 6060
+  host: "0.0.0.0"
+  trusted_proxies:
+    - "127.0.0.1"
+    - "::1"
+    - "10.0.0.0/8"
+    - "172.16.0.0/12"
+    - "192.168.0.0/16"
+
+storage:
+  path: "./uploads"
+
+domain: "your-domain.com"
+```
+
+
 ### Using Docker Compose
 
 1. Configure your domain in `docker-compose.yml`:
@@ -31,12 +57,23 @@ services:
 docker-compose up -d
 ```
 
-3. Upload a file:
+### Example 
+
+#### Upload a file:
 ```bash
 curl https://your-domain.com -T your_file.txt
 ```
+```
+=========================
 
-4. Download a file:
+Uploaded 1 file, 1311 bytes
+
+wget https://your-domain.com/download/2I9AV
+
+=========================  
+```
+
+#### Download a file:
 ```bash
 wget https://your-domain.com/download/<file-id>
 ```
@@ -52,13 +89,6 @@ go build
 ```bash
 ./tupload
 ```
-
-## Configuration
-
-Edit `config/config.yaml` to customize:
-- Server port and host
-- Storage path
-- Domain name
 
 ## License
 
