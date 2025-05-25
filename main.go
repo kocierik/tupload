@@ -41,7 +41,13 @@ func main() {
 	}
 
 	// Routes
-	r.POST("/upload", h.UploadFile)
+	r.NoRoute(func(c *gin.Context) {
+		if c.Request.Method == "PUT" {
+			h.UploadFile(c)
+		} else {
+			c.JSON(404, gin.H{"error": "page not found"})
+		}
+	})
 	r.GET("/download/:id", h.DownloadFile)
 
 	// Start server

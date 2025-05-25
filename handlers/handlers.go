@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"fmt"
+	"io"
 	"math/rand"
 	"net/http"
+	"path/filepath"
 	"time"
 
 	"github.com/erik/tupload/storage"
@@ -34,36 +36,51 @@ func generateSimpleID() string {
 }
 
 func (h *Handler) UploadFile(c *gin.Context) {
-	// Try to get the file from the main field first
-	file, header, err := c.Request.FormFile("")
-	if err != nil {
-		// If that fails, try to get any file from the form
+	var file io.Reader
+	var filename string
+	var filesize int64
+
+	// Handle PUT request with raw body
+	if c.Request.Method == "PUT" {
+		file = c.Request.Body
+		filename = filepath.Base(c.Request.URL.Path)
+		if filename == "" || filename == "/" {
+			filename = "uploaded_file"
+		}
+		filesize = c.Request.ContentLength
+	} else {
+		// Try to get the file from the form
 		form, err := c.MultipartForm()
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "No file provided"})
 			return
 		}
-		if len(form.File) == 0 {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "No file provided"})
-			return
-		}
-		// Get the first file from the form
+
+		// Look for files in any field
+		var foundFile bool
 		for _, files := range form.File {
 			if len(files) > 0 {
-				file, err = files[0].Open()
+				formFile, err := files[0].Open()
 				if err != nil {
 					c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to open file"})
 					return
 				}
-				header = files[0]
+				file = formFile
+				filename = files[0].Filename
+				filesize = files[0].Size
+				foundFile = true
 				break
 			}
 		}
+
+		if !foundFile {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "No file provided"})
+			return
+		}
 	}
-	defer file.Close()
 
 	fileID := generateSimpleID()
-	_, err = h.storage.SaveFileWithID(file, header.Filename, fileID)
+	_, err := h.storage.SaveFileWithID(file, filename, fileID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file"})
 		return
@@ -71,7 +88,7 @@ func (h *Handler) UploadFile(c *gin.Context) {
 
 	downloadURL := fmt.Sprintf("https://%s/download/%s", h.domain, fileID)
 	output := fmt.Sprintf("\n=========================\n\nUploaded 1 file, %d bytes\n\nwget %s\n\n=========================",
-		header.Size, downloadURL)
+		filesize, downloadURL)
 
 	c.String(http.StatusOK, output)
 }
