@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUpload - Simple File Upload</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TUpload</h1>
+            <p>Upload files and get a temporary download link valid for 24 hours</p>
+        </header>
+
+        <main>
+            <div class="upload-container" id="dropZone">
+                <div class="upload-content">
+                    <svg class="upload-icon" viewBox="0 0 24 24" width="48" height="48">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                    </svg>
+                    <p>Drag and drop your file here</p>
+                    <p class="or">or</p>
+                    <label for="fileInput" class="upload-button">Choose File</label>
+                    <input type="file" id="fileInput" hidden>
+                </div>
+            </div>
+
+            <div class="result-container" id="resultContainer" style="display: none;">
+                <h2>File Uploaded Successfully!</h2>
+                <div class="download-info">
+                    <p>Your file will be available for 24 hours</p>
+                    <div class="download-link">
+                        <input type="text" id="downloadLink" readonly>
+                        <button onclick="copyLink()">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Files are automatically deleted after 24 hours</p>
+        </footer>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html> 

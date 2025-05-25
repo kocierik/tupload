@@ -1,0 +1,247 @@
+:root {
+    --primary-color: #7289da;
+    --primary-hover: #5b6eae;
+    --bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --border-color: #2d2d2d;
+    --success-color: #43b581;
+    --dropzone-bg: #2d2d2d;
+    --dropzone-hover: #363636;
+    --result-bg: #2d2d2d;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    color: #888;
+    font-size: 1.1rem;
+}
+
+main {
+    flex: 1;
+}
+
+.upload-container {
+    background-color: var(--dropzone-bg);
+    border: 2px dashed var(--border-color);
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 2rem;
+}
+
+.upload-container:hover {
+    border-color: var(--primary-color);
+    background-color: var(--dropzone-hover);
+}
+
+.upload-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.upload-text {
+    margin-bottom: 1rem;
+    color: #888;
+}
+
+.upload-text strong {
+    color: var(--text-color);
+}
+
+.choose-file-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.choose-file-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+#file-input {
+    display: none;
+}
+
+.result-container {
+    display: none;
+    background-color: var(--result-bg);
+    border-radius: 10px;
+    padding: 2rem;
+    margin-top: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+}
+
+.result-container.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.result-container h2 {
+    color: var(--success-color);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.download-info {
+    background-color: var(--dropzone-bg);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.download-info p {
+    color: #888;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.download-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: none;
+    margin: 0;
+    padding: 0;
+}
+
+.download-link input {
+    flex: 1;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.8rem 1rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.download-link input:focus {
+    border-color: var(--primary-color);
+}
+
+.download-link button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.download-link button:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.download-link button:active {
+    transform: translateY(0);
+}
+
+.success-message {
+    color: var(--success-color);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.copy-btn {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.copy-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+footer {
+    text-align: center;
+    margin-top: 2rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Drag and drop styles */
+.upload-container.dragover {
+    border-color: var(--primary-color);
+    background-color: var(--dropzone-hover);
+    transform: scale(1.02);
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .container {
+        padding: 1rem;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .upload-container {
+        padding: 1.5rem;
+    }
+} 

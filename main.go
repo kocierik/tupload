@@ -40,7 +40,15 @@ func main() {
 		r.SetTrustedProxies([]string{"127.0.0.1", "::1"})
 	}
 
+	// Serve static files
+	r.StaticFile("/style.css", "./static/style.css")
+	r.StaticFile("/script.js", "./static/script.js")
+
 	// Routes
+	r.GET("/", func(c *gin.Context) {
+		c.File("./static/index.html")
+	})
+
 	r.NoRoute(func(c *gin.Context) {
 		if c.Request.Method == "PUT" {
 			h.UploadFile(c)
@@ -48,6 +56,7 @@ func main() {
 			c.JSON(404, gin.H{"error": "page not found"})
 		}
 	})
+
 	r.GET("/download/:id", h.DownloadFile)
 
 	// Start server
